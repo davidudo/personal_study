@@ -1,8 +1,8 @@
 # Personal Study
 
-This repository will contain all the solutions for the books I read and the courses I take. There will be phases were I study some resources over a period of time until I am done with them. These phases will be called _sprints_.
+This repository will contain all the solutions for the learning resources I study, these would include books, courses, e.t.c. These  resources will be studied in phases--a finite period of time set for the completion of a list of resources. These phases  will be called _sprints_.
 
-## Sprint <Cycle>
+## Sprint 1
 
-- [ ] Book One
-- [ ] Book Two
+- [ ] Modern Operating Systems
+- [ ] Operating Systems (freeCodeCamp YouTube)
