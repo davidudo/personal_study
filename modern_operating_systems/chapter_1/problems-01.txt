@@ -1,0 +1,534 @@
+Introduction
+============
+
+Problem 1
+---------
+
+Question: What are the two main functions of an operating system?
+
+1. Provides application programmers (and application programs, naturally) a
+   clean abstract set of resources instead of the messy hardware ones.
+2. Manages these hardware resources.
+
+Problem 2
+---------
+
+Question: In Section 1.4, nine different types of operating systems are
+described. Give a list of applications for each of these systems (one per
+operating systems type).
+
+1. Mainframe Operating Systems -> Used to offer batch, transaction processing,
+   and timesharing services.
+2. Server Operating Systems -> Used to serve multiple users at once over a
+   network and allow the users to share hardware and software resources.
+   Servers can provide print service, file service, or Web service.
+3. Multiprocessor Operating Systems -> Used in systems that multiple connected
+   CPUs.
+4. Personal Computer Operating Systems -> Used for word processing,
+   spreadsheets, games, and Internet access.
+5. Handheld Computer Operating Systems -> Used in a small computer that can be
+   held in your hand during operation, e.g smart phones and tablets.
+6. Embedded Operating Systems -> Used in computers that control devices that
+   are not generally thought of as computers and which do not accept
+   user-installed software. Examples are microwave ovens, TV sets, cars, DVD
+   recorders, traditional phones, and MP3 players.
+7. Sensor-Node Operating Systems -> Used in sensor-nodes (tiny computers with a
+   CPU, RAM, ROM, and one or more environmental sensors) that communicate with
+   each other and with a base station using wireless communication.
+8. Real-Time Operating Systems -> Used to collect data in production process
+   and to control machines in the factory where there are often hard deadlines
+   that must be met. For example, if a car is moving down an assembly line,
+   certain actions must take place at certain instants of time.
+9. Smart Card Operating Systems -> Used in credit and debit cards.
+
+Problem 3
+---------
+
+Question: What is the difference between timesharing and multiprogramming
+systems?
+
+Multiprogramming is a method of executing multiple programs on a single
+processor by rapidly switching between them. Timesharing, on the other hand, is
+a specific form of multiprogramming that allows multiple users to share the
+system resources, such as the CPU, by dividing the processor time among them.
+Each user or process gets a small slice of time (a "timeslice") to execute its
+instructions. Once a timeslice expires, the operating system switches to
+another process, giving each process a chance to run.
+
+Problem 4
+---------
+
+Question: To use cache memory, main memory is divided into cache lines,
+typically 32 or 64 bytes long. An entire cache line is cached at once. What is
+the advantage of caching an entire line instead of a single byte or word at a
+time?
+
+The main advantage of caching an entire line is the probability of the next
+cache-hit is increased.
+
+Cache-hit: When the program needs to read a memory word, the cache hardware
+checks to see if the line needed is in the cache.
+
+If we don't have a cache-hit then cache-miss will occur. A memory request is
+sent to the main memory. As a result, more time will be spent to complete the
+process, since searching inside the memory is costly. We can tell that, caching
+an entire line will increase the probability of completing the process in
+two-cycles.
+
+Problem 5
+---------
+
+Question: On early computers, every byte of data read or written was handled by
+the CPU (i.e., there was no DMA). What implications does this have for
+multiprogramming?
+
+A DMA (Direct Memory Access) chip controls the flow of bits between memory and
+some controller without constant CPU intervention.
+
+Without DMA, the CPU was responsible for all data transfers, including reading
+from and writing to memory. This meant that the CPU had to be involved in every
+data transfer operation, which could significantly reduce its availability for
+executing program instructions.
+
+The operating system frequently switches between different programs to give the
+illusion of simultaneous execution. Without DMA, each context switch would
+require the CPU to handle data transfers, further increasing the overhead
+associated with context switching.
+
+Problem 6
+---------
+
+Question: Instructions related to accessing I/O devices are typically
+privileged instructions, that is, they can be executed in kernel mode but not
+in user mode. Give a reason why these instructions are privileged.
+
+Because they directly interact with hardware resources that are critical to the
+system's operation.
+
+Problem 7
+---------
+
+Question: The family-of-computers idea was introduced in the 1960s with the IBM
+System/360 mainframes. Is this idea now dead as a doornail or does it live on?
+
+While the specific S/360 line is no longer in use, the concept of a “family” of
+computers lives on. Modern computing platforms, such as x86-based servers,
+ARM-based devices, and cloud services, follow a similar approach. They offer
+various models with different capabilities, allowing scalability and
+compatibility.
+
+Problem 8
+---------
+
+Question: One reason GUIs were initially slow to be adopted was the cost of the
+hardware needed to support them. How much video RAM is needed to support a
+25-line x 80-row character monochrome text screen? How much for a 1200 x
+900-pixel 24-bit color bitmap? What was the cost of this RAM at 1980 prices ($5/
+KB)? How much is it now?
+
+A 25x80 character monochrome text screen requires a 2000-byte buffer. The
+1024x768 pixel 24-bit color bitmap requires 2,359,296 bytes. In 1980 these two
+options would have cost $10 and $11,520, respectively. For current prices,
+check on how much RAM currently costs, probably less than $1/MB.
+
+Problem 9
+---------
+
+Question: There are several design goals in building an operating system, for
+example, resource utilization, timeliness, robustness, and so on. Give an
+example of two design goals that may contradict one another.
+
+Timeliness and resource utilization could contradict each other. Managing
+resources effectively (without collision or interruption) can result in
+processes having longer wait times.
+
+Problem 10
+----------
+
+Question: What is the difference between kernel and user mode? Explain how
+having two distinct modes aids in designing an operating system.
+
+In kernel mode, the CPU can execute every instruction in its instruction set
+and use every feature of the hardware. In user mode, which only a subset of the
+instructions are permitted to be executed and a subset of the features to be
+accessed.
+
+Problem 11
+----------
+
+Question: A 255-GB disk has 65,536 cylinders with 255 sectors per track and 512
+bytes per sector. How many platters and heads does this disk have? Assuming an
+average cylinder seek time of 11 ms, average rotational delay of 7 msec and
+reading rate of 100 MB/sec, calculate the average time it will take to read 400
+KB from one sector.
+
+Problem 12
+----------
+
+Question: Which of the following instructions should be allowed only in kernel
+mode?
+  (a) Disable all interrupts.
+  (b) Read the time-of-day clock.
+  (c) Set the time-of-day clock.
+  (d) Change the memory map.
+
+Choices (a), (c), and (d) should be restricted to kernel mode.
+
+Problem 13
+----------
+
+Question: Consider a system that has two CPUs, each CPU having two threads
+(hyperthreading). Suppose three programs, P0, P1, and P2, are started with run
+times of 5, 10 and 20 msec, respectively. How long will it take to complete the
+execution of these programs? Assume that all three programs are 100% CPU bound,
+do not block during execution, and do not change CPUs once assigned.
+
+It may take 20, 25 or 30 msec to complete the execution of these programs
+depending on how the operating system schedules them. If P0 and P1 are
+scheduled on the same CPU and P2 is scheduled on the other CPU, it will take 20
+msec. If P0 and P2 are scheduled on the same CPU and P1 is scheduled on the
+other CPU, it will take 25 msec. If P1 and P2 are scheduled on the same CPU and
+P0 is scheduled on the other CPU, it will take 30 msec. If all three are on the
+same CPU, it will take 35 msec.
+
+Problem 14
+----------
+
+Question: A computer has a pipeline with four stages. Each stage takes the same
+time to do its work, namely, 1 nsec. How many instructions per second can this
+machine execute?
+
+1 billion instructions per second (1 GHz).
+
+Problem 15
+----------
+
+Question: Consider a computer system that has cache memory, main memory (RAM)
+and disk, and an operating system that uses virtual memory. It takes 1 nsec to
+access a word from the cache, 10 nsec to access a word from the RAM, and 10 ms
+to access a word from the disk. If the cache hit rate is 95% and main memory
+hit rate (after a cache miss) is 99%, what is the average time to access a word?
+
+95% will hit the cache, and 4.95% will hit the RAM and .05% will hit the disk
+therefore ( (95 x 1) +(4.95 x 10) +(.05 x 10 x 1000000) )/100 = 5001.45 nsec
+
+Problem 16
+----------
+
+Question: When a user program makes a system call to read or write a disk file,
+it provides an indication of which file it wants, a pointer to the data buffer,
+and the count. Control is then transferred to the operating system, which calls
+the appropriate driver. Suppose that the driver starts the disk and terminates
+until an interrupt occurs. In the case of reading from the disk, obviously the
+caller will have to be blocked (because there are no data for it). What about
+the case of writing to the disk? Need the caller be blocked awaiting completion
+of the disk transfer?
+
++ Reading: The caller is blocked until the read operation completes.
++ Writing: The caller is not blocked during the write operation; the system
+  handles the write asynchronously.
+
+Problem 17
+----------
+
+Question: What is a trap instruction? Explain its use in operating systems.
+
+To obtain services from the operating system, a user program must make a system
+call, which traps into the kernel and invokes the operating system. The TRAP
+instruction switches from user mode to kernel mode and starts the operating
+system. When the work has been completed, control is returned to the user
+program at the instruction following the system call.
+
+Problem 18
+----------
+
+Question: Why is the process table needed in a timesharing system? Is it also
+needed in personal computer systems running UNIX or Windows with a single user?
+
+In many operating systems, all the information about each process, other than
+the contents of its own address space, is stored in an operating system table
+called the process table, which is an array of structures, one for each process
+currently in existence.
+Thus, a (suspended) process consists of its address space, usually called the
+core image (in honor of the magnetic core memories used in days of yore), and
+its process table entry, which contains the contents of its registers and many
+other items needed to restart the process later.
+
+The process table is need in a timesharing system so that the multitude of
+processes that need to be run can be stored somewhere when they need to be
+taken off the processor. Then, when it's time to run the process again, it's
+exact state is known, so it can start back from where it left off.
+
+Problem 19
+----------
+
+Question: Is there any reason why you might want to mount a file system on a
+nonempty directory? If so, what is it?
+
+Mounting a file system on a nonempty directory can be done for several reasons,
+such as:
+
+1. To add new content to an existing directory without deleting the existing
+   content. This is useful when you want to keep the existing data intact and
+   add new data to it.
+2. To access files on a different file system that are related to the existing
+   files in the directory. For example, you may have a directory with
+   configuration files on one file system and log files on another file system.
+   By mounting the log file system on the directory, you can access both sets
+   of files from the same location.
+3. To temporarily hide the existing content of a directory while accessing the
+   files on the mounted file system. This is useful when you need to perform
+   maintenance or troubleshooting on the existing content.
+
+However, it's important to note that mounting a file system on a nonempty
+directory can also have unintended consequences, such as overwriting or hiding
+existing files. It's important to proceed with caution and make sure you fully
+understand the implications before mounting a file system on a nonempty
+directory.
+
+Problem 20
+----------
+
+Question: For each of the following system calls, give a condition that causes
+it to fail: fork, exec, and unlink.
+
++ fork: No more processes (OS out of memory).
++ exec: Program file does not exist; file exists, but does not represent a valid
+  executable file (e.g., it is a spreadsheet); file exists, but the user does
+  not have permission to execute it (e.g., the file does not have the exec bit
+  set, or the user does not have permission to execute the file); ...
++ unlink: File does not exist; user does not have permission to access the file.
+
+Problem 21
+----------
+
+Question: What type of multiplexing (time, space, or both) can be used for
+sharing the following resources: CPU, memory, disk, network card, printer,
+keyboard, and display?
+
+Time multiplexing: CPU, network card, printer, keyboard.
+Space multiplexing: memory, diske
+
+Problem 22
+----------
+
+Question: Can the count = write(fd, buffer, nbytes); call return any value in
+count other than nbytes? If so, why?
+
+If the call fails, for example because fd is incorrect, it can return −1. It
+can also fail because the disk is full, and it is not possible to write the
+number of bytes requested.
+
+Problem 23
+----------
+
+Question: A file whose file descriptor is fd contains the following sequence of
+bytes: 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5. The following system calls are made:
+lseek(fd, 3, SEEK SET); read(fd, &buffer, 4); where the lseek call makes a seek
+to byte 3 of the file. What does buffer contain after the read has completed?
+
+It contains the bytes: 1, 5, 9, 2.
+
+Problem 24
+----------
+
+Question: Suppose that a 10-MB file is stored on a disk on the same track (
+track 50) in consecutive sectors. The disk arm is currently situated over track
+number 100. How long will it take to retrieve this file from the disk? Assume
+that it takes about 1 ms to move the arm from one cylinder to the next and
+about 5 ms for the sector where the beginning of the file is stored to rotate
+under the head. Also, assume that reading occurs at a rate of 200 MB/s.
+
+Time to retrieve the file = 1 50 ms (Time to move the arm over track 50) + 5 ms
+(Time for the first sector to rotate under the head) + 10/200 1000 ms (Read 10
+MB) = 105 ms
+
+Problem 25
+----------
+
+Question: What is the essential difference between a block special file and a
+character special file?
+
+Special files are provided in order to make I/O devices look like files. That
+way, they can be read and write using the same system calls as are used for
+reading and writing files. Two kinds of special files exist: block special
+files and character special files. Block special files are used to model
+devices that consist of a collection of randomly addressable blocks, such as
+disks. By opening a block special file and reading, say, block 4, a program can
+directly access the fourth block on the device, without regard to the structure
+of the file system contained on it. Similarly, character special files are used
+to model printers, modems, and other devices that accept or output a character
+stream. By convention, the special files are kept in the `/dev` directory. For
+example, `/dev/lp` might be the printer (once called the line printer).
+
+Problem 26
+----------
+
+Question: In the example given in Fig. 1-17, the library procedure is called
+read and the system call itself is called read. Is it essential that both of
+these have the same name? If not, which one is more important?
+
+It is more important for the library procedure to have that name. When the
+library procedure read traps to the kernel, it puts the code of the system call
+in a register. This code is used to index into a table. In other words, this
+code is critical to identify the system call being invoked, not the naming of
+the system call. On the other hand, the name of the library procedure is very
+important, since that is what appears in the program.
+
+Problem 27
+----------
+
+Question: Modern operating systems decouple a process address space from the
+machine’s physical memory. List two advantages of this design.
+
+This allows an executable program to be loaded in different parts of the
+machine'smemory in different runs. Also, it enables program size to exceed the
+size of the machine's memory.
+
+Problem 28
+
+Question: To a programmer, a system call looks like any other call to a library
+procedure. Is it important that a programmer know which library procedures
+result in system calls? Under what circumstances and why?
+
+As far as program logic is concerned it does not matter whether a call to a
+library procedure results in a system call.
+
+But if performance is an issue, if a task can be accomplished without a system
+call the program will run faster.
+
+Every system call involves overhead time in switching from the user context to
+the kernel context.Furthermore, on a multiuser system the operating system may
+schedule another process to run when a system call completes, further slowing
+the progress in real time of a calling process.
+
+Problem 29
+----------
+
+Question: Figure 1-23 shows that a number of UNIX system calls have no Win32
+API equivalents. For each of the calls listed as having no Win32 equivalent,
+what are the consequences for a programmer of converting a UNIX program to run
+under Windows?
+
++ execve - The programmer will be forced to create a new process using
+  CreateProcess every time he or she wants to fork or execve. In other words,
+  instead of being able to call just fork or execve alone, they we will have to
+  call CreateProcess, which calls both of these UNIX commands.
++ link - The programmer will not be able to duplicate files and have two
+  files in different places refer to the same exact file.
++ mount/umount - The programmer could not dynamically add or subtract file
+  systems or I/O systems and thus adjust the root and/or working directories.
++ chmod - The programmer will not be able to set file permissions.
+  kill - The programmer will not be able to send signals to specific processes.
+
+Problem 30
+----------
+
+Question: A portable operating system is one that can be ported from one system
+architecture to another without any modification. Explain why it is infeasible
+to build an operating system that is completely portable. Describe two high-
+level layers that you will have in designing an operating system that is highly
+portable.
+
+Every system architecture has its own set of instructions that it can execute.
+Thus a Pentium cannot execute SPARC programs and a SPARC cannot execute Pentium
+programs. Also, different architectures differ in bus architecture used (such
+as VME, ISA, PCI, MCA, SBus, ...) as well as the word size of the CPU (usually
+32 or 64 bit). Because of these differences in hardware, it is not feasible to
+build an operating system that is completely portable. A highly portable
+operating system will consist of two high-level layers a machine-dependent
+layer and a machine-independent layer. The machine-dependent layer addresses
+the specifics of the hardware and must be implemented separately for every
+architecture. This layer provides a uniform interface on which the machine-
+independent layer is built. The machine-independent layer has to be implemented
+only once. To be highly portable, the size of the machine-dependent layer must
+be kept as small as possible.
+
+Problem 31
+----------
+
+Question: Explain how separation of policy and mechanism aids in building
+microkernel-based operating systems.
+
+Separation of policy and mechanism allows OS designers to implement a small
+number of basic primitives in the kernel. These primitives are simplified,
+because they are not dependent of any specific policy. They can then be used to
+implement more complex mechanisms and policies at the user level.
+
+Policy: a set of ideas or a plan of what to do.
+Mechanism: a process, technique, or system for achieving a result.
+
+A mechanism is more about 'how' a particular task (possibly a policy) is done
+where as a policy is more about 'what' needs to be done. Once we understand
+this fact, we can clearly distinguish the usage of these terms. For example,
+consider an office with several employees. The office may have a policy like *"
+All the employees need to be authenticated before they enter the office."* As
+you can see, the policy just describes what needs to be done with out delving
+much on how it can be achieved. This policy can be enforced by one or more of
+the below given mechanisms:
+
+1. Each employee needs to swipe his/her identity card on an RFID reader. The
+   door will be unlocked only when a valid identity card is swiped.
+2. Using a retina/fingerprint scanner, a biosensor will authenticate every
+   employee entering the office.
+
+Separation of mechanism and policy states that mechanisms should not dictate(or
+overly restrict) the policies. Decoupling the mechanism implementations from
+the policy specifications makes it possible for different applications to use
+the same mechanism implementations with different policies.
+
+Problem 32
+----------
+
+Question: Virtual machines have become very popular for a variety of reasons.
+Nevertheless, they have some downsides. Name one.
+
+The virtualization layer introduces increased memory usage and processor
+overhead as well as increased performance overhead
+
+Problem 33
+----------
+
+Question: Here are some questions for practicing unit conversions:
+  (a) How long is a nanoyear in seconds?
+  (b) Micrometers are often called microns. How long is a megamicron?
+  (c) How many bytes are there in a 1-PB memory?
+  (d) The mass of the earth is 6000 yottagrams. What is that in kilograms?
+
+(a) A nanoyear is 10-9 x 365 x 24 x 3600 = 31. 536 msec.
+(b) 1 meter
+(c) 1,125,899,907,000,000 bytes
+(d) 6 * 10^24 kilogram
+
+Problem 34
+----------
+
+Question: Write a shell that is similar to Fig. 1-19 but contains enough code
+that it actually works so you can test it. You might also add some features
+such as redirection of input and output, pipes, and background jobs.
+
+See `shell.c </modern_operating_systems/chapter_1/shell.c>`_
+
+Problem 35
+----------
+
+Question: If you have a personal UNIX-like system (Linux, MINIX 3, FreeBSD, etc.
+) available that you can safely crash and reboot, write a shell script that
+attempts to create an unlimited number of child processes and observe what
+happens. Before running the experiment, type sync to the shell to flush the
+file system buffers to disk to avoid ruining the file system. You can also do
+the experiment safely in a virtual machine. Note: Do not try this on a shared
+system without first getting permission from the system administrator. The
+consequences will be instantly obvious so you are likely to be caught and
+sanctions may follow.
+
+See `bug.sh </modern_operating_systems/chapter_1/bug.sh>`_
+
+Problem 36
+----------
+
+Question: Examine and try to interpret the contents of a UNIX-like or Windows
+directory with a tool like the UNIX od program. (Hint: How you do this will
+depend upon what the OS allows. One trick that may work is to create a
+directory on a USB stick with one operating system and then read the raw device
+data using a different operating system that allows such access.)
