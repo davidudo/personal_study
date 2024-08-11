@@ -1,0 +1,19 @@
+{
+  "name": "chapter_3",
+  "version": "1.0.0",
+  "main": "p2p.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "dat-swarm-defaults": "^1.0.3",
+    "discovery-swarm": "^6.1.0",
+    "get-port": "^7.1.0",
+    "moment": "^2.30.1"
+  }
+}
