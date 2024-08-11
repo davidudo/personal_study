@@ -2,10 +2,16 @@ import crypto from 'crypto';
 import Swarm from 'discovery-swarm';
 import defaults from 'dat-swarm-defaults';
 import getPort from 'get-port';
+import * as chain from './chain.js';
 
 const peers = {};
 let connSeq = 0;
 let channel = 'myBlockchain';
+
+const MessageType = {
+    REQUEST_BLOCK: 'requestBlock',
+    RECEIVE_NEXT_BLOCK: 'receiveNextBlock'
+};
 
 const myPeerId = crypto.randomBytes(32);
 console.log('myPeerId: ' + myPeerId.toString('hex'));
@@ -15,7 +21,7 @@ const config = defaults({
 });
 
 const swarm = Swarm(config);
-    
+
 (async () => {
     const port = await getPort();
 
@@ -36,7 +42,7 @@ const swarm = Swarm(config);
         }
 
         conn.on('data', data => {
-            let message = JSON.parse(data);
+            const message = JSON.parse(data);
             console.log('----------- Received Message start -------------');
             console.log(
                 'from: ' + peerId.toString('hex'),
@@ -46,30 +52,47 @@ const swarm = Swarm(config);
             );
             console.log('----------- Received Message end -------------');
 
+            switch (message.type) {
+                case MessageType.REQUEST_BLOCK:
+                    console.log('-----------REQUEST_BLOCK-------------');
+                    const requestedIndex = (JSON.parse(JSON.stringify(message.data))).index;
+                    const requestedBlock = chain.getBlock(requestedIndex);
+                    if (requestedBlock)
+                        writeMessageToPeerToId(peerId.toString('hex'), MessageType.RECEIVE_NEXT_BLOCK, requestedBlock);
+                    else
+                        console.log('No block found @ index: ' + requestedIndex);
+                    console.log('-----------REQUEST_BLOCK-------------');
+                    break;
+                case MessageType.RECEIVE_NEXT_BLOCK:
+                    console.log('-----------RECEIVE_NEXT_BLOCK-------------');
+                    chain.addBlock(JSON.parse(JSON.stringify(message.data)));
+                    console.log(JSON.stringify(chain.blockchain));
+                    const nextBlockIndex = chain.getLatestBlock().index + 1;
+                    console.log('-- request next block @ index: ' + nextBlockIndex);
+                    writeMessageToPeers(MessageType.REQUEST_BLOCK, { index: nextBlockIndex });
+                    console.log('-----------RECEIVE_NEXT_BLOCK-------------');
+                    break;
+            }
         });
 
         conn.on('close', () => {
             console.log(`Connection ${seq} closed, peerId: ${peerId}`);
             if (peers[peerId].seq === seq) {
-                delete peers[peerId]
+                delete peers[peerId];
             }
         });
 
         if (!peers[peerId]) {
-            peers[peerId] = {}
+            peers[peerId] = {};
         }
         peers[peerId].conn = conn;
         peers[peerId].seq = seq;
-        connSeq++
-    })
+        connSeq++;
+    });
 })();
 
-setTimeout(function(){
-    writeMessageToPeers('hello', null);
-}, 10000);
-
-function writeMessageToPeers(type, data) {
-    for (let id in peers) {
+const writeMessageToPeers = (type, data) => {
+    for (const id in peers) {
         console.log('-------- writeMessageToPeers start -------- ');
         console.log('type: ' + type + ', to: ' + id);
         console.log('-------- writeMessageToPeers end ----------- ');
@@ -77,8 +100,8 @@ function writeMessageToPeers(type, data) {
     }
 };
 
-function writeMessageToPeerToId(toId, type, data) {
-    for (let id in peers) {
+const writeMessageToPeerToId = (toId, type, data) => {
+    for (const id in peers) {
         if (id === toId) {
             console.log('-------- writeMessageToPeerToId start -------- ');
             console.log('type: ' + type + ', to: ' + toId);
@@ -88,13 +111,15 @@ function writeMessageToPeerToId(toId, type, data) {
     }
 };
 
-function sendMessage(id, type, data) {
-    peers[id].conn.write(JSON.stringify(
-        {
-            to: id,
-            from: myPeerId,
-            type: type,
-            data: data
-        }
-    ));
+const sendMessage = (id, type, data) => {
+    peers[id].conn.write(JSON.stringify({
+        to: id,
+        from: myPeerId,
+        type: type,
+        data: data
+    }));
 };
+
+setTimeout(() => {
+    writeMessageToPeers(MessageType.REQUEST_BLOCK, { index: chain.getLatestBlock().index + 1 });
+}, 5000);
