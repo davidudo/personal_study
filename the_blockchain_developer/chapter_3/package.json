@@ -10,10 +10,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cron": "^3.1.7",
     "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
     "dat-swarm-defaults": "^1.0.3",
     "discovery-swarm": "^6.1.0",
     "get-port": "^7.1.0",
+    "level": "^8.0.1",
     "moment": "^2.30.1"
   }
 }

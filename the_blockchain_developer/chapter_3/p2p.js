@@ -6,10 +6,10 @@ import * as chain from './chain.js';
 import { CronJob } from 'cron';
 
 const peers = {};
-let connSeq = 0;
-let channel = 'myBlockchain';
-let registeredMiners = [];
-let lastBlockMinedBy = null;
+let connSeq = 0,
+    channel = 'myBlockchain',
+    registeredMiners = [],
+    lastBlockMinedBy = null;
 
 const MessageType = {
     REQUEST_BLOCK: 'requestBlock',
@@ -21,6 +21,8 @@ const MessageType = {
 
 const myPeerId = crypto.randomBytes(32);
 console.log('myPeerId: ' + myPeerId.toString('hex'));
+
+chain.createDb(myPeerId.toString('hex'));
 
 const config = defaults({
     id: myPeerId,
@@ -49,7 +51,7 @@ const swarm = Swarm(config);
         }
 
         conn.on('data', data => {
-            const message = JSON.parse(data);
+            let message = JSON.parse(data);
             console.log('----------- Received Message start -------------');
             console.log(
                 'from: ' + peerId.toString('hex'),
@@ -62,8 +64,8 @@ const swarm = Swarm(config);
             switch (message.type) {
                 case MessageType.REQUEST_BLOCK:
                     console.log('-----------REQUEST_BLOCK-------------');
-                    const requestedIndex = JSON.parse(JSON.stringify(message.data)).index;
-                    const requestedBlock = chain.getBlock(requestedIndex);
+                    let requestedIndex = (JSON.parse(JSON.stringify(message.data))).index;
+                    let requestedBlock = chain.getBlock(requestedIndex);
                     if (requestedBlock)
                         writeMessageToPeerToId(peerId.toString('hex'), MessageType.RECEIVE_NEXT_BLOCK, requestedBlock);
                     else
@@ -74,7 +76,7 @@ const swarm = Swarm(config);
                     console.log('-----------RECEIVE_NEXT_BLOCK-------------');
                     chain.addBlock(JSON.parse(JSON.stringify(message.data)));
                     console.log('Blockchain: ' + JSON.stringify(chain.blockchain));
-                    const nextBlockIndex = chain.getLatestBlock().index + 1;
+                    let nextBlockIndex = chain.getLatestBlock().index + 1;
                     console.log('-- request next block @ index: ' + nextBlockIndex);
                     writeMessageToPeers(MessageType.REQUEST_BLOCK, { index: nextBlockIndex });
                     console.log('-----------RECEIVE_NEXT_BLOCK-------------');
@@ -95,7 +97,7 @@ const swarm = Swarm(config);
                     break;
                 case MessageType.REGISTER_MINER:
                     console.log('-----------REGISTER_MINER------------- ' + message.to);
-                    const miners = JSON.stringify(message.data);
+                    let miners = JSON.stringify(message.data);
                     registeredMiners = JSON.parse(miners);
                     console.log(registeredMiners);
                     console.log('-----------REGISTER_MINER------------- ' + message.to);
@@ -108,7 +110,7 @@ const swarm = Swarm(config);
             if (peers[peerId].seq === seq) {
                 delete peers[peerId];
                 console.log('--- registeredMiners before: ' + JSON.stringify(registeredMiners));
-                const index = registeredMiners.indexOf(peerId);
+                let index = registeredMiners.indexOf(peerId);
                 if (index > -1)
                     registeredMiners.splice(index, 1);
                 console.log('--- registeredMiners end: ' + JSON.stringify(registeredMiners));
@@ -116,16 +118,16 @@ const swarm = Swarm(config);
         });
 
         if (!peers[peerId]) {
-            peers[peerId] = {};
+            peers[peerId] = {}
         }
         peers[peerId].conn = conn;
         peers[peerId].seq = seq;
-        connSeq++;
-    });
+        connSeq++
+    })
 })();
 
 const writeMessageToPeers = (type, data) => {
-    for (const id in peers) {
+    for (let id in peers) {
         console.log('-------- writeMessageToPeers start -------- ');
         console.log('type: ' + type + ', to: ' + id);
         console.log('-------- writeMessageToPeers end ----------- ');
@@ -134,7 +136,7 @@ const writeMessageToPeers = (type, data) => {
 };
 
 const writeMessageToPeerToId = (toId, type, data) => {
-    for (const id in peers) {
+    for (let id in peers) {
         if (id === toId) {
             console.log('-------- writeMessageToPeerToId start -------- ');
             console.log('type: ' + type + ', to: ' + toId);
@@ -169,10 +171,10 @@ setTimeout(() => {
     console.log('---------- Register my miner --------------');
 }, 7000);
 
-const job = new CronJob('30 * * * * *', function() {
+const job = new CronJob('30 * * * * *', () => {
     let index = 0; // first block
     if (lastBlockMinedBy) {
-        const newIndex = registeredMiners.indexOf(lastBlockMinedBy);
+        let newIndex = registeredMiners.indexOf(lastBlockMinedBy);
         index = (newIndex + 1 > registeredMiners.length - 1) ? 0 : newIndex + 1;
     }
     lastBlockMinedBy = registeredMiners[index];
@@ -180,7 +182,7 @@ const job = new CronJob('30 * * * * *', function() {
     console.log(JSON.stringify(registeredMiners));
     if (registeredMiners[index] === myPeerId.toString('hex')) {
         console.log('-----------create next block -----------------');
-        const newBlock = chain.generateNextBlock(null);
+        let newBlock = chain.generateNextBlock(null);
         chain.addBlock(newBlock);
         console.log(JSON.stringify(newBlock));
         writeMessageToPeers(MessageType.RECEIVE_NEW_BLOCK, newBlock);
