@@ -8,3 +8,12 @@ This repository will contain all the solutions for the learning resources I stud
 
 - [ ] Modern Operating Systems [Book](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X)
 - [ ] Operating Systems [freeCodeCamp YouTube](https://www.youtube.com/watch?v=yK1uBHPdp30)
+
+## Sprint 2
+
+**Theme:** Complete [OSSU](https://github.com/ossu/computer-science) computer science syllabus.
+
+- [ ] Intro to CS
+- [ ] Core CS
+- [ ] Advanced CS
+- [ ] Final Project
