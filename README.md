@@ -4,5 +4,16 @@ This repository will contain all the solutions for the learning resources I stud
 
 ## Sprint 1
 
+**Theme:** Learn how operating systems work.
+
 - [ ] Modern Operating Systems
 - [ ] Operating Systems (freeCodeCamp YouTube)
+
+## Sprint 2
+
+**Theme:** Complete [OSSU](https://github.com/ossu/computer-science) computer science syllabus.
+
+- [ ] OSSU: Intro to CS
+- [ ] OSSU: Core CS
+- [ ] OSSU: Advanced CS
+- [ ] Final Project
